@@ -1,0 +1,18 @@
+Example for reference:
+
+Verify the Username in table
+    ${status}    ${value} =    Run Keyword And Ignore Error    Page1
+    Run Keyword If    '${status}' == 'PASS'    ClickNextButton
+    Run Keyword Unless    '${status}' == 'PASS'    Click the Modify icon
+
+ClickNextButton
+    Click link    userListTable_next
+    ${status}    ${value} =    Run Keyword And Ignore Error    Page1
+    Run Keyword If    '${status}' == 'PASS'    Verify the Username in table
+    Run Keyword Unless    '${status}' == 'PASS'    Click the Modify icon
+
+Click the Modify icon
+    Click Element    xpath=//td[contains(.,"${USERNAME}")]/../td[6]//img
+
+Page1
+    Page Should not Contain Element    xpath=//td[contains(.,"${USERNAME}")]/../td[2]
