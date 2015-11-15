@@ -1,0 +1,46 @@
+Conditional Execution of Keywords
+
+Conditional Execution of test code is something that can lead to quite some controversial discussions. No worries, I am not going to dig into those. The only thing that we should keep in mind is that the implementation of tests should be as simple and clear as possible. Adding a lot of conditions might contradict this approach.
+
+In the following examples these related Keywords have been used:
+
+Run Keyword – This one is pretty cool as it allows to pass in a Keyword in a Variable. This makes it possible to create quite some dynamic to the tests as the Keyword to be executed could be returned from another keyword. Can be used to do either pretty neat things or to produce total chaos ;-).
+Run Keyword If – This is very helpful when testing complex structures. This could be for example dynamic web pages that enable/disable certain fields based on some input data. When used properly it can be used to create if/else-like structures. But be careful: The more programming there is inside the tests the more difficult it is to do troubleshooting if tests are failing.
+Run Keyword And Ignore Error – Honestly I did not yet had any real-life usecase for this. It is just another example what is possible with the Robot Framework.
+Looking into the documentation of the Build-In Library one can see that there are a lot more of those Keywords. Especially Keywords like “Run Keyword If Test Failed” can be very useful for troubleshooting by putting for example screenshots or other information to the Robot Log in case of failing testcases.
+
+The Tests
+
+*** Test Cases ***
+Run-Keyword
+    ${MY_KEYWORD}=    Set Variable    Log
+    Run Keyword    ${MY_KEYWORD}    Test
+
+Run-Keyword-If
+    ${TYPE}=    Set Variable    V1
+    Run Keyword If    '${TYPE}' == 'V1'    Log     Testing Variant 1
+    Run Keyword If    '${TYPE}' == 'V2'    Log    Testing Variant 2
+    Run Keyword If    '${TYPE}' == 'V3'    Log    Testing Variant 3
+
+Run-Keyword-Ignore-Error
+    @{CAPTAINS}    Create List    Picard    Kirk    Archer
+    Run Keyword And Ignore Error    Should Be Empty    ${CAPTAINS}
+    Log    Reached this point despite of error
+The Output
+
+Starting test: Robot Blog.StandardConditionDemo.Run-Keyword
+20130426 13:34:50.840 :  INFO : ${MY_KEYWORD} = Log
+20130426 13:34:50.841 :  INFO : Test
+Ending test:   Robot Blog.StandardConditionDemo.Run-Keyword
+
+Starting test: Robot Blog.StandardConditionDemo.Run-Keyword-If
+20130426 13:34:50.843 :  INFO : ${TYPE} = V1
+20130426 13:34:50.844 :  INFO : Testing Variant 1
+Ending test:   Robot Blog.StandardConditionDemo.Run-Keyword-If
+
+Starting test: Robot Blog.StandardConditionDemo.Run-Keyword-Ignore-Error
+20130426 13:34:50.847 :  INFO : @{CAPTAINS} = [ Picard | Kirk | Archer ]
+20130426 13:34:50.848 :  INFO : Length is 3
+20130426 13:34:50.849 :  FAIL : '[u'Picard', u'Kirk', u'Archer']' should be empty
+20130426 13:34:50.850 :  INFO : Reached this point despite of error
+Ending test:   Robot Blog.StandardConditionDemo.Run-Keyword-Ignore-Error
