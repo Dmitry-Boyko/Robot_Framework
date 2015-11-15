@@ -1,0 +1,65 @@
+The Tests
+
+*** Settings ***
+Library           String
+
+*** Test Cases ***
+For-Loop-In-Range
+    : FOR    ${INDEX}    IN RANGE    1    3
+        Log    ${INDEX}
+        ${RANDOM_STRING}=    Generate Random String    ${INDEX}
+        Log    ${RANDOM_STRING}
+
+For-Loop-Elements
+    @{ITEMS}    Create List    Star Trek    Star Wars    Perry Rhodan
+    :FOR    ${ELEMENT}    IN    @{ITEMS}
+        Log    ${ELEMENT}
+        ${ELEMENT}    Replace String    ${ELEMENT}    ${SPACE}    ${EMPTY}
+        Log    ${ELEMENT}
+
+For-Loop-Exiting
+    @{ITEMS}    Create List    Good Element 1    Break On Me    Good Element 2
+    :FOR    ${ELEMENT}    IN    @{ITEMS}
+        Log    ${ELEMENT}
+        Run Keyword If    '${ELEMENT}' == 'Break On Me'    Exit For Loop
+        Log    Do more actions here ...
+
+Repeat-Action
+    Repeat Keyword    2    Log    Repeating this ...
+The Output
+
+Starting test: StandardLoopDemo.For-Loop-In-Range
+20130426 11:24:14.389 :  INFO : 1
+20130426 11:24:14.390 :  INFO : ${RANDOM_STRING} = B
+20130426 11:24:14.390 :  INFO : B
+20130426 11:24:14.391 :  INFO : 2
+20130426 11:24:14.392 :  INFO : ${RANDOM_STRING} = ih
+20130426 11:24:14.392 :  INFO : ih
+Ending test:   StandardLoopDemo.For-Loop-In-Range
+
+Starting test: StandardLoopDemo.For-Loop-Elements
+20130426 11:24:14.394 :  INFO : @{ITEMS} = [ Star Trek | Star Wars | Perry Rhodan ]
+20130426 11:24:14.395 :  INFO : Star Trek
+20130426 11:24:14.396 :  INFO : ${ELEMENT} = StarTrek
+20130426 11:24:14.396 :  INFO : StarTrek
+20130426 11:24:14.397 :  INFO : Star Wars
+20130426 11:24:14.398 :  INFO : ${ELEMENT} = StarWars
+20130426 11:24:14.398 :  INFO : StarWars
+20130426 11:24:14.399 :  INFO : Perry Rhodan
+20130426 11:24:14.400 :  INFO : ${ELEMENT} = PerryRhodan
+20130426 11:24:14.400 :  INFO : PerryRhodan
+Ending test:   StandardLoopDemo.For-Loop-Elements
+
+Starting test: StandardLoopDemo.For-Loop-Exiting
+20130426 11:24:14.402 :  INFO : @{ITEMS} = [ Good Element 1 | Break On Me | Good Element 2 ]
+20130426 11:24:14.402 :  INFO : Good Element 1
+20130426 11:24:14.403 :  INFO : Do more actions here ...
+20130426 11:24:14.404 :  INFO : Break On Me
+Ending test:   StandardLoopDemo.For-Loop-Exiting
+
+Starting test: StandardLoopDemo.Repeat-Action
+20130426 11:24:14.408 :  INFO : Repeating keyword, round 1/2
+20130426 11:24:14.408 :  INFO : Repeating this ...
+20130426 11:24:14.408 :  INFO : Repeating keyword, round 2/2
+20130426 11:24:14.409 :  INFO : Repeating this ...
+Ending test:   StandardLoopDemo.Repeat-Action
