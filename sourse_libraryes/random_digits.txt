@@ -1,0 +1,8 @@
+# I think the random module's sample function is the most elegant solution. 
+# Here taking 4 out of the set of numbers from 1 to 10 inclusive:
+
+${numbers}=    Evaluate    random.sample(range(1, 11), 4)    random
+
+#This returns a list of int's. If you want string representation of numbers...
+
+${numbers}=    Evaluate    random.sample([unicode(x) for x in range(1, 11)], 4)    random
