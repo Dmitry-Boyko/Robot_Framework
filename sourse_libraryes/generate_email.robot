@@ -1,3 +1,6 @@
+*** Settings ***
+Library  String
+
 *** Keywords ***
 Add Email
     ${email} =  Generate Random String    8   [LOWER]
