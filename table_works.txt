@@ -1,0 +1,23 @@
+
+*** Settings ***
+
+Library  Selenium2Library  timeout=15.0  implicit_wait=30.0
+
+*** Keywords ***
+
+Count Table Rows
+    [Arguments]  ${value}   ${table}
+    ${row} =  get matching xpath count  ${table}    #//tr[10]/td
+    should match  ${row}  ${value}
+
+
+Count Table Columns
+    [Arguments]  ${value}    ${table}
+    ${cols} =   Get Matching XPath Count   ${table}  #/tr/td
+    should match  ${cols}  ${value}
+    
+
+*** Test Cases ***
+
+Count Number of Rows
+    table_works.Count Table Rows  19    //tr[10]/td
