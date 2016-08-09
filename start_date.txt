@@ -1,0 +1,20 @@
+*** Settings ***
+Documentation  This file contain steps for create, verify and delete Self-Paced event.
+Library  Selenium2Library  timeout=15  implicit_wait=30
+
+Resource  ./PO/source_events.robot
+Resource  ..//../../common.robot
+
+Library  DateTime
+Library  String
+
+*** Variables ***
+
+*** Keywords ***
+Add Start Date + 4 days
+    # Calendar: Start date
+    clear element text  ${CALENDAR_START_DATE}
+    ${yyyy}    ${mm}    ${dd}    Get Time    year,month,day  NOW + 4 days
+    ${start_date}    Set Variable    ${mm}/${dd}/${yyyy}
+    input text  ${CALENDAR_START_DATE}  ${start_date}
+    ${START_DATE4} =  set global variable  ${start_date}
